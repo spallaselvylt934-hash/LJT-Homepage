@@ -5,7 +5,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
 
 jobs:
   check:
@@ -17,17 +16,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set +e
-          {
-            echo "GET response:"
-            gh api --include "repos/${GITHUB_REPOSITORY}/pages"
-            echo
-            echo "POST response:"
-            gh api --include --method POST "repos/${GITHUB_REPOSITORY}/pages" -f build_type=workflow
-          } > pages-setup.log 2>&1
+          gh api --include "repos/${GITHUB_REPOSITORY}/pages" > pages-setup.log 2>&1
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch --orphan pages-setup
           git rm -rf --quiet .
           git add pages-setup.log
-          git commit -m "Record Pages setup response"
+          git commit --amend -m "Record Pages setup response" --allow-empty
           git push --force origin pages-setup
