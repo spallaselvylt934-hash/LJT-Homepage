@@ -20,7 +20,7 @@ repository               : "spallaselvylt934-hash/LJT-Homepage"
 # Site Author
 author:
   # Biographic information
-  avatar           : ""
+  avatar           :
   name             : "Junteng Liu"
   bio              : "First-year PhD candidate at HKUST NLP Group"
   employer         : "HKUST NLP Group"
