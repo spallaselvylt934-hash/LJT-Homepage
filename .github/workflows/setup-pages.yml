@@ -19,8 +19,8 @@ jobs:
           gh api --include "repos/${GITHUB_REPOSITORY}/pages" > pages-setup.log 2>&1
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git switch --orphan pages-setup
+          git switch -C pages-setup
           git rm -rf --quiet .
           git add pages-setup.log
-          git commit --amend -m "Record Pages setup response" --allow-empty
+          git commit -m "Record Pages setup response"
           git push --force origin pages-setup
