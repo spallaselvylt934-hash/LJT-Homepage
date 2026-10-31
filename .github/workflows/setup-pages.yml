@@ -1,4 +1,4 @@
-name: Check Pages setup
+name: Clean up Pages setup diagnostics
 
 on:
   workflow_dispatch:
@@ -7,20 +7,11 @@ permissions:
   contents: write
 
 jobs:
-  check:
+  cleanup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Check Pages API
+      - name: Remove the temporary diagnostic branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set +e
-          gh api --include "repos/${GITHUB_REPOSITORY}/pages" > pages-setup.log 2>&1
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git switch -C pages-setup
-          git rm -rf --quiet .
-          git add pages-setup.log
-          git commit -m "Record Pages setup response"
-          git push --force origin pages-setup
+          gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/pages-setup"
